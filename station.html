@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wolkenmann</title>
+
+    <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://static.vecteezy.com/system/resources/previews/021/357/793/non_2x/cloud-3d-render-on-transparent-background-free-png.png"
+                    alt="" width="43">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" id="link_seegrube" href="station.html?name=seegrube">Seegrube</a>
+                    <a class="nav-link" id="link_elfer" href="station.html?name=elfer">Elfer</a>
+                    <a class="nav-link" id="link_patscherkofel" href="station.html?name=patscherkofel">Patscherkofel</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 id="pagetitle" class="display-4" hidden></h1>
+
+        <div class="row row-flex">
+
+            <div id="charts_container" class="col-12 mb-3" hidden>
+                <div class="card">
+                    <div class="card-body center-img">
+                        <img class="mw-100" id="charts_img">
+                    </div>
+                </div>
+            </div>
+
+            <div id="webcam_container" class="col-12 mb-3" hidden>
+                <div class="card">
+                    <div class="card-body center-img">
+                        <img class="mw-100" id="webcam_img">
+                    </div>
+                </div>
+            </div>
+
+            <div id="widget_container" class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-body center-img">
+                        <iframe id="widget_iframe" class="mw-100" frameborder="0" scrolling="NO"
+                            allowtransparency="true"
+                            sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
+                            style="width: 460px; height: 598px"></iframe>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function displayContents(stationsname, charts, webcam, widget) {
+            var link = document.querySelector('#link_' + stationsname);
+            link.classList.add("active");
+            var title = document.querySelector('#pagetitle');
+            title.removeAttribute("hidden");
+            title.innerHTML = link.innerHTML;
+
+            if (charts) {
+                var container = document.querySelector('#charts_container');
+                container.removeAttribute("hidden");
+                var img = document.querySelector('#charts_img');
+                img.src = charts;
+            }
+
+            if (webcam) {
+                var container = document.querySelector('#webcam_container');
+                container.removeAttribute("hidden");
+                var img = document.querySelector('#webcam_img');
+                img.src = webcam;
+            }
+
+            if (widget) {
+                var container = document.querySelector('#widget_container');
+                container.removeAttribute("hidden");
+                var iframe = document.querySelector('#widget_iframe');
+                iframe.src = widget;
+            }
+
+
+        }
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const stationsname = urlParams.get('name');
+
+            var charts, webcam, widget;
+            if (stationsname.toLowerCase() == "elfer") {
+                var charts = "https://wiski.tirol.gv.at/lawine/grafiken/800/standard/tag/elferspitze.png";
+                var webcam = "https://wtvhspt.feratel.com/hotspot/35/5714/4.jpeg";
+                var widget = "https://www.meteoblue.com/de/wetter/widget/three/elferspitze_%c3%96sterreich_6938816?geoloc=fixed&nocurrent=0&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright";
+            }
+            else if (stationsname.toLowerCase() == "seegrube") {
+                var charts = "https://wiski.tirol.gv.at/lawine/grafiken/800/standard/tag/seegrube.png";
+                var webcam = "https://www.foto-webcam.eu/webcam/innsbruck/current/1200.jpg";
+                var widget = "https://www.meteoblue.com/de/wetter/widget/three/hafelekarspitze_%c3%96sterreich_2777088?geoloc=fixed&nocurrent=0&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright";
+            }
+            else if (stationsname.toLowerCase() == "patscherkofel") {
+                var charts = "https://wiski.tirol.gv.at/lawine/grafiken/800/standard/tag/patscherkofel.png";
+                var widget = "https://www.meteoblue.com/de/wetter/widget/three/patscherkofel_%c3%96sterreich_2769207?geoloc=fixed&nocurrent=0&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright";
+            } else {
+                return;
+            }
+
+            displayContents(stationsname, charts, webcam, widget);
+        });
+    </script>
+</body>
+
+</html>

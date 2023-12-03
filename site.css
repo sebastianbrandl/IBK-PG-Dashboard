@@ -1,0 +1,38 @@
+.container{
+    margin-top: 6rem;
+}
+
+.extlink_img {
+    max-width: 100%;
+    max-height: 12vh;
+}
+
+.card-header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.row-flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+
+[class*="col-"] {
+    margin-bottom: 30px;
+}
+
+.extlink_card {
+    height: 100%;
+}
+
+.center-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: auto;
+}
